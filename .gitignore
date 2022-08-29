@@ -3,4 +3,10 @@
 app-wasm/cache
 ./app-wasm/.vscode
 /app-wasm/.vscode
-app-wasm/.vscode
+app-wasm/.vscode/**/*
+app-wasm/.vscode/**/*
+rust-wasm-callback/target/**
+rust-wasm-callback/target
+
+app-wasm/.vscode/
+app-wasm/.angular/
