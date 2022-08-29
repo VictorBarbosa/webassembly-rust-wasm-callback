@@ -1,0 +1,7 @@
+{
+    "scripts": {
+      "build": "wasm-pack build --profiling --out-dir ../app-wasm/src/assets/",
+      "build:watch":"cargo watch -c -x --why --exec \"&& npm run build\""
+    }
+  }
+  

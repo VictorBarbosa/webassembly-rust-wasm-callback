@@ -1,0 +1,3 @@
+[submodule "app-wasm"]
+	path = app-wasm
+	url = ./app-wasm

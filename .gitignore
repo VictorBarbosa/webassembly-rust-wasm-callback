@@ -1,0 +1,6 @@
+/app-wasm/node_module
+/app-wasm/cache
+app-wasm/cache
+./app-wasm/.vscode
+/app-wasm/.vscode
+app-wasm/.vscode
