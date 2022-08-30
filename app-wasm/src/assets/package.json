@@ -1,0 +1,16 @@
+{
+  "name": "rust-wasm-callback",
+  "collaborators": [
+    "VictorBarbosa <victor.hugo.p.barbosa@hotmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "rust_wasm_callback_bg.wasm",
+    "rust_wasm_callback.js",
+    "rust_wasm_callback_bg.js",
+    "rust_wasm_callback.d.ts"
+  ],
+  "module": "rust_wasm_callback.js",
+  "types": "rust_wasm_callback.d.ts",
+  "sideEffects": false
+}
