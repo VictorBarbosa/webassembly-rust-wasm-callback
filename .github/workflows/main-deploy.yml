@@ -57,6 +57,7 @@ jobs:
           destination: ./_site
           working-directory: ./app-wasm
           run: |
+           npm run clean
            npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
