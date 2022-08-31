@@ -1,4 +1,5 @@
-/app-wasm/node_module
+app-wasm/node_modules
+
 /app-wasm/cache
 app-wasm/cache
 ./app-wasm/.vscode

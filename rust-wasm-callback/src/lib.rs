@@ -1,3 +1,4 @@
+mod ex_class;
 mod utils;
 
 use wasm_bindgen::prelude::*;

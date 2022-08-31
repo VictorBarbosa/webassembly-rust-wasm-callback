@@ -206,6 +206,113 @@ function handleError(f, args) {
         wasm.__wbindgen_exn_store(addHeapObject(e));
     }
 }
+/**
+*/
+export class ExClass {
+
+    static __wrap(ptr) {
+        const obj = Object.create(ExClass.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_exclass_free(ptr);
+    }
+    /**
+    */
+    constructor() {
+        const ret = wasm.exclass_new();
+        return ExClass.__wrap(ret);
+    }
+    /**
+    * @param {number} counter
+    * @returns {RetEx}
+    */
+    ex_function(counter) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.exclass_ex_function(ptr, counter);
+        return RetEx.__wrap(ret);
+    }
+}
+/**
+*/
+export class RetEx {
+
+    static __wrap(ptr) {
+        const obj = Object.create(RetEx.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_retex_free(ptr);
+    }
+    /**
+    * @param {number} total
+    * @param {string} return_msg
+    */
+    constructor(total, return_msg) {
+        const ptr0 = passStringToWasm0(return_msg, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.retex_new(total, ptr0, len0);
+        return RetEx.__wrap(ret);
+    }
+    /**
+    * @returns {number}
+    */
+    get total() {
+        const ret = wasm.retex_total(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @param {number} total
+    */
+    set total(total) {
+        wasm.retex_set_total(this.ptr, total);
+    }
+    /**
+    * @returns {string}
+    */
+    get msg() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.retex_msg(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+    /**
+    * @param {string} msg
+    */
+    set msg(msg) {
+        const ptr0 = passStringToWasm0(msg, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.retex_set_msg(this.ptr, ptr0, len0);
+    }
+}
 
 export function __wbindgen_object_drop_ref(arg0) {
     takeObject(arg0);

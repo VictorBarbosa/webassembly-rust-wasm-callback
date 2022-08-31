@@ -324,16 +324,20 @@
 
   <!-- Links -->
   <div class="card-container">
-    <input [(ngModel)]="count" type="number" min="1">
+    <input [(ngModel)]="counter" type="number" min="1">
     <button (click)="startCount()">Start Count</button>
   </div>
 
   <!-- Links -->
-  <div class="card-container">
-    <ul>
-      <li *ngFor="let item of response">{{item}}</li>
-    </ul>
+  <div *ngIf="jsFaster && (js$ |async) as js">
+    Js is faster than wasm - time {{js.time}}
   </div>
+  <div *ngIf="wasmFaster  && (wasm$ |async) as wasm">
+    Wasm is faster than js  -  time {{wasm.time}}
+  </div>
+
+
+
 
 
 
