@@ -56,13 +56,13 @@ jobs:
           working-directory: ./app-wasm
           run: |
            npm run clean
-           npm run build
+           npm run build:pages
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./app-wasm
-          destination: ./dist/app-wasm
-          # destination: ./_site
+ 
+          destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
@@ -70,7 +70,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url/here }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: ci
     steps:
