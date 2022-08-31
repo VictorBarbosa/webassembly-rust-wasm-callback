@@ -25,8 +25,8 @@ jobs:
   my_build:
     runs-on: ubuntu-latest
     steps:
-      - name: script path or inline
-        working-directory: ./app-wasm
+      - name: Script path or inline
+        working-directory: ${pwd}/app-wasm
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Pages
@@ -50,5 +50,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-      - name: Change Directory
-        working-directory: ./app-wasm
+
