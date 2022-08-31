@@ -3,6 +3,7 @@ name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
   # Runs on pushes targeting the default branch
+
   push:
     branches: ["main"]
 
@@ -15,6 +16,7 @@ permissions:
   pages: write
   id-token: write
 
+
 # Allow one concurrent deployment
 concurrency:
   group: "pages"
@@ -24,11 +26,11 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: CHANGIN WORKING DIRECTORY
-        working-directory: ./app-wasm
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll
@@ -36,8 +38,11 @@ jobs:
         with:
           source: ./
           destination: ./_site
+          working-directory: ./app-wasm  
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+      - name: Bla Bla
+        working-directory: ./app-wasm  
 
   # Deployment job
   deploy:
