@@ -65,7 +65,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-         working-directory: ./app-wasm/docs
+          working-directory: ./docs
 
   # Deployment job
   deploy:
