@@ -60,9 +60,9 @@ jobs:
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./dist
-          destination: ./_site
-          working-directory: ./app-wasm
+          source: ./app-wasm
+          destination: ./dist/app-wasm
+          # destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
