@@ -1,5 +1,6 @@
 app-wasm/node_modules
 app-wasm/dist
+app-wasm/docs
 /app-wasm/cache
 app-wasm/cache
 ./app-wasm/.vscode
