@@ -53,7 +53,7 @@ jobs:
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./app-wasm
+          source: ./app-wasm/app-wasm
           destination: ./_site
           working-directory: ./app-wasm
           run: |
