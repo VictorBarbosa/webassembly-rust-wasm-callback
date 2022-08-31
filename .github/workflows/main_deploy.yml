@@ -32,7 +32,7 @@ jobs:
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./app-wasm/dist
+          source: ./
           destination: ./_site
           path: ./app-wasm
       - name: Npm Commands
