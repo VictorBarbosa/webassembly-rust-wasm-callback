@@ -25,7 +25,7 @@ jobs:
   my_build:
     runs-on: ubuntu-latest
     steps:
-      - name: Script path or inline 
+      - name: Script path or inline
         working-directory: ${pwd}/app-wasm
       - name: Checkout
         uses: actions/checkout@v3
