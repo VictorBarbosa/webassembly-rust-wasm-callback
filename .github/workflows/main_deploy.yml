@@ -32,8 +32,11 @@ jobs:
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./
+          source: ./app-wasm/dist
           destination: ./_site
+          path: ./app-wasm
+      - name: Npm Commands
+        with:
           path: ./app-wasm
           run: |
            npm install
