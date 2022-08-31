@@ -36,6 +36,7 @@ jobs:
           destination: ./_site
           path: ./app-wasm
       - name: Npm Commands
+        uses: actions/jekyll-build-pages@v1
         with:
           path: ./app-wasm
           run: |
