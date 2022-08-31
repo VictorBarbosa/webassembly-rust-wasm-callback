@@ -35,10 +35,9 @@ jobs:
           source: ./
           destination: ./_site
           path: ./app-wasm
-      - name: NPM commands
-        run: |
-          npm install
-          npm run build
+          run: |
+           npm install
+           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1  
 
