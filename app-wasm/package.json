@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "clean": "rm -rf dist docs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "build:pages": "ng deploy --base-href=/webassembly-rust-wasm-callback/",
