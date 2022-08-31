@@ -55,26 +55,24 @@ jobs:
         with:
           working-directory: ./app-wasm
           run: |
-           npm run clean
-           npm run build
-      - name: Build
-        uses: actions/jekyll-build-pages@v1
+           npm run build:pages
+      #- name: Build
+      #  uses: actions/jekyll-build-pages@v1
+      #  with:
+      #    source: ./app-wasm
+      #   destination: ./_site
+      #- name: Upload artifact
+      #  uses: actions/upload-pages-artifact@v1
+    
+      #- uses: actions/checkout@v2
+      # Runs a single command using the runners shell
+      - name: Angular Deploy gh-pages Actions
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.1
         with:
-          source: ./app-wasm
-          destination: ./dist/app-wasm
-          # destination: ./_site
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url/here }}
-    runs-on: ubuntu-latest
-    needs: ci
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+          working-directory: ./app-wasm
+          github_access_token: ${{ secrets.GITHUB_TOKEN  }} 
+          build_configuration: production 
+          base_href: /webassembly-rust-wasm-callback/  
+          deploy_branch: gh-pages 
+          angular_dist_build_folder: dist/app-wasm
  
