@@ -43,6 +43,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build
+        uses: actions/jekyll-build-pages@v1
         with:
           source: ./app-wasm
           destination: ./_site
