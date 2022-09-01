@@ -65,6 +65,8 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+        with:
+         path: ./_site/app-wasm/docs
 
   # Deployment job
   deploy:
