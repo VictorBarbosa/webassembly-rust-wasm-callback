@@ -56,9 +56,11 @@ jobs:
           working-directory: ./app-wasm
           
       - name: Ng Build
+        uses: actions/setup-node@v1
         with: 
           working-directory: ./app-wasm
           run: npm run build:pages
+          
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
