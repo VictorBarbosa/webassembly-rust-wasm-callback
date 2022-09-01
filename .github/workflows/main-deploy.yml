@@ -54,13 +54,17 @@ jobs:
         uses: actions/jekyll-build-pages@v1
         with:
           working-directory: ./app-wasm
-          run: |
-           npm run build:pages
+          
+      - name: Ng Build
+        with: 
+          working-directory: ./app-wasm
+          run: npm run build:pages
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./app-wasm
           destination: ./app-wasm/docs
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
