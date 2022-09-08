@@ -1,0 +1,14 @@
+<div>
+  <table>
+    <tr>
+      <td>Total</td>
+      <td>Msg</td>
+      <td>Time</td>
+    </tr>
+    <tr *ngFor="let det of $detail|async">
+      <td>{{det.total}}</td>
+      <td>{{det.msg}}</td>
+      <td>{{det.time}}</td>
+    </tr>
+  </table>
+</div>

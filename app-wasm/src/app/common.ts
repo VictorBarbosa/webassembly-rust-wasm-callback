@@ -13,7 +13,7 @@ export const JsPrimerCounter = (counter: number): Observable<{ retEx: RetEx, tim
   }
 
   return new Observable(obs => {
-    obs.next({ retEx: new RetEx(primerList.length, `Total - ${primerList.length} primers number in ${counter}, msg from js`), time: (performance.now() - start) })
+    obs.next({ retEx: new RetEx(primerList.length, `Total - ${primerList.length} primers number in ${counter}, msg from js`), time: (performance.now() - start) / 1000 })
     console.timeEnd("js-time")
   })
 }
@@ -37,8 +37,11 @@ export const WasmPrimerCounter = (counter: number): Observable<{ retEx: RetEx, t
   console.time("wasm-time")
   const start = performance.now()
   return new Observable(obs => {
-    obs.next({ retEx: new call.ExClass().ex_function(counter), time: (performance.now() - start) })
+    const exClass = new call.ExClass()
+    const ret = exClass.conterPrimer(counter)
+    obs.next({ retEx: ret, time: (performance.now() - start) / 1000 });
     console.timeEnd("wasm-time");
+    exClass.free();
   });
 }
 

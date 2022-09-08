@@ -178,25 +178,58 @@ function getInt32Memory0() {
     }
     return cachedInt32Memory0;
 }
-/**
-* @param {number} count
-* @param {Function} callback
-*/
-export function callback_ex(count, callback) {
-    wasm.callback_ex(count, addHeapObject(callback));
+
+function makeClosure(arg0, arg1, dtor, f) {
+    const state = { a: arg0, b: arg1, cnt: 1, dtor };
+    const real = (...args) => {
+        // First up with a closure we increment the internal reference
+        // count. This ensures that the Rust closure environment won't
+        // be deallocated while we're invoking it.
+        state.cnt++;
+        try {
+            return f(state.a, state.b, ...args);
+        } finally {
+            if (--state.cnt === 0) {
+                wasm.__wbindgen_export_2.get(state.dtor)(state.a, state.b);
+                state.a = 0;
+
+            }
+        }
+    };
+    real.original = state;
+
+    return real;
+}
+function __wbg_adapter_16(arg0, arg1) {
+    wasm._dyn_core__ops__function__Fn_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha9ba16191c1ec4aa(arg0, arg1);
 }
 
-function isLikeNone(x) {
-    return x === undefined || x === null;
+function makeMutClosure(arg0, arg1, dtor, f) {
+    const state = { a: arg0, b: arg1, cnt: 1, dtor };
+    const real = (...args) => {
+        // First up with a closure we increment the internal reference
+        // count. This ensures that the Rust closure environment won't
+        // be deallocated while we're invoking it.
+        state.cnt++;
+        const a = state.a;
+        state.a = 0;
+        try {
+            return f(a, state.b, ...args);
+        } finally {
+            if (--state.cnt === 0) {
+                wasm.__wbindgen_export_2.get(state.dtor)(a, state.b);
+
+            } else {
+                state.a = a;
+            }
+        }
+    };
+    real.original = state;
+
+    return real;
 }
-/**
-* This sample shows how you can passa a counter and receive call back or a error message
-* if the callback funtion is empty
-* @param {number} count
-* @param {Function | undefined} callback
-*/
-export function callback_ex_with_option(count, callback) {
-    wasm.callback_ex_with_option(count, isLikeNone(callback) ? 0 : addHeapObject(callback));
+function __wbg_adapter_19(arg0, arg1, arg2) {
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h7bd184f80e86dc31(arg0, arg1, addHeapObject(arg2));
 }
 
 function handleError(f, args) {
@@ -206,6 +239,10 @@ function handleError(f, args) {
         wasm.__wbindgen_exn_store(addHeapObject(e));
     }
 }
+function __wbg_adapter_38(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures__invoke2_mut__h44f2f95d15915cb5(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+}
+
 /**
 */
 export class ExClass {
@@ -235,13 +272,27 @@ export class ExClass {
         return ExClass.__wrap(ret);
     }
     /**
+    *
+    * The callback has an JSON string than must be parse to RetEx
     * @param {number} counter
     * @returns {RetEx}
     */
-    ex_function(counter) {
+    conterPrimer(counter) {
         const ptr = this.__destroy_into_raw();
-        const ret = wasm.exclass_ex_function(ptr, counter);
+        const ret = wasm.exclass_conterPrimer(ptr, counter);
         return RetEx.__wrap(ret);
+    }
+    /**
+    *
+    * The callback has an JSON string than must be parse to RetEx
+    * @param {number} counter
+    * @param {Function} callback
+    * @returns {Promise<void>}
+    */
+    ex_function_callback(counter, callback) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.exclass_ex_function_callback(ptr, counter, addHeapObject(callback));
+        return takeObject(ret);
     }
 }
 /**
@@ -323,10 +374,99 @@ export function __wbindgen_string_new(arg0, arg1) {
     return addHeapObject(ret);
 };
 
+export function __wbindgen_cb_drop(arg0) {
+    const obj = takeObject(arg0).original;
+    if (obj.cnt-- == 1) {
+        obj.a = 0;
+        return true;
+    }
+    const ret = false;
+    return ret;
+};
+
+export function __wbg_instanceof_Window_42f092928baaee84(arg0) {
+    const ret = getObject(arg0) instanceof Window;
+    return ret;
+};
+
+export function __wbg_setTimeout_b9c1670391a219b8() { return handleError(function (arg0, arg1, arg2) {
+    const ret = getObject(arg0).setTimeout(getObject(arg1), arg2);
+    return ret;
+}, arguments) };
+
+export function __wbg_newnoargs_971e9a5abe185139(arg0, arg1) {
+    const ret = new Function(getStringFromWasm0(arg0, arg1));
+    return addHeapObject(ret);
+};
+
+export function __wbg_call_33d7bcddbbfa394a() { return handleError(function (arg0, arg1) {
+    const ret = getObject(arg0).call(getObject(arg1));
+    return addHeapObject(ret);
+}, arguments) };
+
+export function __wbg_self_fd00a1ef86d1b2ed() { return handleError(function () {
+    const ret = self.self;
+    return addHeapObject(ret);
+}, arguments) };
+
+export function __wbg_window_6f6e346d8bbd61d7() { return handleError(function () {
+    const ret = window.window;
+    return addHeapObject(ret);
+}, arguments) };
+
+export function __wbg_globalThis_3348936ac49df00a() { return handleError(function () {
+    const ret = globalThis.globalThis;
+    return addHeapObject(ret);
+}, arguments) };
+
+export function __wbg_global_67175caf56f55ca9() { return handleError(function () {
+    const ret = global.global;
+    return addHeapObject(ret);
+}, arguments) };
+
+export function __wbindgen_is_undefined(arg0) {
+    const ret = getObject(arg0) === undefined;
+    return ret;
+};
+
 export function __wbg_call_65af9f665ab6ade5() { return handleError(function (arg0, arg1, arg2) {
     const ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
     return addHeapObject(ret);
 }, arguments) };
+
+export function __wbg_new_52205195aa880fc2(arg0, arg1) {
+    try {
+        var state0 = {a: arg0, b: arg1};
+        var cb0 = (arg0, arg1) => {
+            const a = state0.a;
+            state0.a = 0;
+            try {
+                return __wbg_adapter_38(a, state0.b, arg0, arg1);
+            } finally {
+                state0.a = a;
+            }
+        };
+        const ret = new Promise(cb0);
+        return addHeapObject(ret);
+    } finally {
+        state0.a = state0.b = 0;
+    }
+};
+
+export function __wbg_resolve_0107b3a501450ba0(arg0) {
+    const ret = Promise.resolve(getObject(arg0));
+    return addHeapObject(ret);
+};
+
+export function __wbg_then_18da6e5453572fc8(arg0, arg1) {
+    const ret = getObject(arg0).then(getObject(arg1));
+    return addHeapObject(ret);
+};
+
+export function __wbindgen_object_clone_ref(arg0) {
+    const ret = getObject(arg0);
+    return addHeapObject(ret);
+};
 
 export function __wbindgen_debug_string(arg0, arg1) {
     const ret = debugString(getObject(arg1));
@@ -338,5 +478,15 @@ export function __wbindgen_debug_string(arg0, arg1) {
 
 export function __wbindgen_throw(arg0, arg1) {
     throw new Error(getStringFromWasm0(arg0, arg1));
+};
+
+export function __wbindgen_closure_wrapper60(arg0, arg1, arg2) {
+    const ret = makeClosure(arg0, arg1, 15, __wbg_adapter_16);
+    return addHeapObject(ret);
+};
+
+export function __wbindgen_closure_wrapper106(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 35, __wbg_adapter_19);
+    return addHeapObject(ret);
 };
 

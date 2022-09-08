@@ -5,6 +5,12 @@ import { ExClass, RetEx } from '../assets/rust_wasm_callback';
 
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { JsPrimerCounter, WasmPrimerCounter } from './common';
+
+interface Detail {
+  msg: string,
+  total: number,
+  time: number,
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,17 +18,12 @@ import { JsPrimerCounter, WasmPrimerCounter } from './common';
 })
 export class AppComponent implements OnInit {
   title = 'app-wasm';
-  count: number = 3;
-  response: string[] = [];
-  exClass: ExClass | null = null;
 
-  jsFaster = false;
-  wasmFaster = false;
 
   /*
    * counter
    */
-  private readonly _counter = new BehaviorSubject<number>(1000);
+  private readonly _counter = new BehaviorSubject<number>(100000);
   counter$ = this._counter.asObservable().pipe(distinctUntilChanged(), shareReplay({ bufferSize: 1, refCount: true }));
 
   /*
@@ -42,79 +43,66 @@ export class AppComponent implements OnInit {
   }
 
 
-  /*
-   * Js
-   */
-  private readonly _js = new BehaviorSubject<{ retEx: RetEx, time: number } | null>(null);
-  js$ = this._js.asObservable().pipe(distinctUntilChanged(), shareReplay({ bufferSize: 1, refCount: true }));
+
 
   /*
-   * Wasm
+   * WasmTime
    */
-  private readonly _wasm = new BehaviorSubject<{ retEx: RetEx, time: number } | null>(null);
-  wasm$ = this._wasm.asObservable().pipe(distinctUntilChanged(), shareReplay({ bufferSize: 1, refCount: true }));
+  private readonly _wasmTime = new BehaviorSubject<number>(0);
+  wasmTime$ = this._wasmTime.asObservable().pipe(distinctUntilChanged(), shareReplay({ bufferSize: 1, refCount: true }));
+
+  /*
+  * WasmTime getter
+  */
+  get wasmTime(): number {
+    return this._wasmTime.getValue();
+  }
+
+  /*
+   * WasmTime setter
+   */
+  set wasmTime(value: number) {
+    if (this._wasmTime.getValue() !== value) {
+      this._wasmTime.next(value);
+    }
+  }
+
+  /*
+   * JsDetail
+   */
+  private readonly _detail = new BehaviorSubject<Detail[] | null>(null);
+  detail$ = this._detail.asObservable().pipe(distinctUntilChanged(), shareReplay({ bufferSize: 1, refCount: true }));
+
 
 
   ngOnInit(): void {
-    this._counter.pipe(tap(counter => {
-      JsPrimerCounter(counter)
-        .pipe(
-          map(m => {
-            return {
-              retEx:
-              {
-                msg: m.retEx.msg,
-                total: m.retEx.total
-              },
-              time: m.time
-            }
-          }),
-          tap(ret => this._js.next({ retEx: ret.retEx as RetEx, time: ret.time }))
-        ).subscribe()
 
-      WasmPrimerCounter(counter)
-        .pipe(
-          map(m => {
-            return {
-              retEx:
-              {
-                msg: m.retEx.msg,
-                total: m.retEx.total
-              },
-              time: m.time
-            }
-          }),
-          tap(ret => this._wasm.next({ retEx: ret.retEx as RetEx, time: ret.time }))
-        ).subscribe()
+    this._counter.pipe(tap(count => {
+      this.counterMax(count);
     })).subscribe();
+  }
+
+
+  /**
+   *
+   * @param maxPrimerNumber
+   */
+  counterMax(maxPrimerNumber: number) {
+    const js = JsPrimerCounter(maxPrimerNumber)
+    const wasm = WasmPrimerCounter(maxPrimerNumber)
     combineLatest([
-      this._js,
-      this._wasm
-    ]).pipe(tap(([js, wasm]) => {
-
-      if ((js?.time !== null && js?.time !== undefined) && (wasm?.time !== null && wasm?.time !== undefined)) {
-        if (js?.time < wasm?.time) {
-          this.jsFaster = true;
-          this.wasmFaster = false;
-        }
-        if (js?.time > wasm?.time) {
-          this.jsFaster = false;
-          this.wasmFaster = true;
-        }
-      }
-    })).subscribe();
-
+      js,
+      wasm
+    ])
+      .pipe(
+        tap(([js, wasm]) => {
+          const detail = [{ msg: js.retEx.msg, time: js.time, total: js.retEx.total }];
+          detail.push({ msg: wasm.retEx.msg, time: wasm.time, total: wasm.retEx.total })
+          this._detail.next(detail);
+        })
+      )
+      .subscribe()
   }
-
-  startCount() {
-    this.response = [];
-    const callback = (ret: string) => {
-      this.response.push(ret);
-    }
-
-    call.callback_ex(this.count, callback)
-  }
-
 
   callback(ret: string) {
     alert(ret);

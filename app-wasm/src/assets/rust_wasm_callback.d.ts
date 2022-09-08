@@ -1,18 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {number} count
-* @param {Function} callback
-*/
-export function callback_ex(count: number, callback: Function): void;
-/**
-* This sample shows how you can passa a counter and receive call back or a error message
-* if the callback funtion is empty
-* @param {number} count
-* @param {Function | undefined} callback
-*/
-export function callback_ex_with_option(count: number, callback?: Function): void;
-/**
 */
 export class ExClass {
   free(): void;
@@ -20,10 +8,20 @@ export class ExClass {
 */
   constructor();
 /**
+*
+* The callback has an JSON string than must be parse to RetEx
 * @param {number} counter
 * @returns {RetEx}
 */
-  ex_function(counter: number): RetEx;
+  conterPrimer(counter: number): RetEx;
+/**
+*
+* The callback has an JSON string than must be parse to RetEx
+* @param {number} counter
+* @param {Function} callback
+* @returns {Promise<void>}
+*/
+  ex_function_callback(counter: number, callback: Function): Promise<void>;
 }
 /**
 */

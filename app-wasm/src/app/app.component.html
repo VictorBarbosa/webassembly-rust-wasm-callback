@@ -324,22 +324,13 @@
 
   <!-- Links -->
   <div class="card-container">
-    <input [(ngModel)]="counter" type="number" min="1">
-    <button (click)="startCount()">Start Count</button>
+    <input [(ngModel)]="counter" type="number" max="1000000" min="1">
   </div>
 
-  <!-- Links -->
-  <div *ngIf="jsFaster && (js$ |async) as js">
-    Js is faster than wasm - time {{js.time}}
+  <div class="details">
+    <app-detail *ngIf="detail$|async as details" [detail]="details" ></app-detail>
+
   </div>
-  <div *ngIf="wasmFaster  && (wasm$ |async) as wasm">
-    Wasm is faster than js  -  time {{wasm.time}}
-  </div>
-
-
-
-
-
 
   <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
     <title>Gray Clouds Background</title>
