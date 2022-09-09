@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, tap, } from 'rxjs';
-import * as call from '../assets/rust_wasm_callback';
-import { ExClass, RetEx } from '../assets/rust_wasm_callback';
+import * as call from '../assets/rust_wasm_code';
+import { ExClass, RetEx } from '../assets/rust_wasm_code';
 
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { JsPrimerCounter, WasmPrimerCounter } from './common';

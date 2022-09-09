@@ -1,5 +1,5 @@
 [package]
-name = "rust-wasm-callback"
+name = "rust-wasm-code"
 version = "0.1.0"
 authors = ["VictorBarbosa <victor.hugo.p.barbosa@hotmail.com>"]
 edition = "2018"
@@ -14,6 +14,8 @@ default = ["console_error_panic_hook"]
 wasm-bindgen = "0.2.63"
 js-sys = "0.3.59"
 wasm-bindgen-futures = "0.4.28"
+wasm_thread = "0.2.0"
+validator = { version = "0.16.0", features = ["derive","phone"] }
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
@@ -37,7 +39,12 @@ opt-level = "s"
 [dependencies.web-sys]
 version = "0.3.4"
 features = [
-  'Document',
-  'Window',
+    'HtmlElement',
+    'Window',
+    'console',
+    'Event',
+    'CustomEvent'
+
+  
       
 ]

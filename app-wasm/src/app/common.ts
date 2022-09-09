@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import * as call from '../assets/rust_wasm_callback';
-import { RetEx } from '../assets/rust_wasm_callback';
+import * as call from '../assets/rust_wasm_code';
+import { RetEx } from '../assets/rust_wasm_code';
 
 export const JsPrimerCounter = (counter: number): Observable<{ retEx: RetEx, time: number }> => {
   console.time("js-time")

@@ -10,7 +10,7 @@ MIT
 @angular/platform-browser
 MIT
 
-rust-wasm-callback
+rust-wasm-code
 
 rxjs
 Apache-2.0
